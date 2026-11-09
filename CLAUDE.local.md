@@ -16,9 +16,11 @@ These rules take precedence over `~/Proyectos/CLAUDE.md` for this project.
   in later without touching business logic.
 - External providers (maps, email, SMS, push) also go behind interfaces with a mock/dev
   implementation; real providers are optional and configured via `.env`.
-- **Local shipments first.** National and international shipments come later (see
-  `docs/ideas.md`); don't design them in until the roadmap says so, but don't block them either.
-- **Multiple currencies from the start:** store money as integer minor units + ISO 4217 currency
+- **Local shipments first:** a shipment stays inside one country (Argentina, United States or
+  Spain), across any of its provinces/states, municipalities and cities. Cross-border
+  (international) shipments come later (see `docs/ideas.md`); don't design them in until the
+  roadmap says so, but don't block them either.
+- **One currency per country** (ARS, USD, EUR): store money as integer minor units + ISO 4217 currency
   code, never floats.
 
 ## Internationalization
