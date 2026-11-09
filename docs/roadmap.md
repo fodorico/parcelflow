@@ -18,7 +18,7 @@ Phased MVP. Each phase should be usable end to end before moving on.
 - [x] Private GitHub repo.
 - [x] Scaffold with starter v2: backend (health check), frontend (home page in `en` and
   `es-419`, language and theme switchers), docker-compose, CI.
-- [ ] Make the repo public (owner) and protect `main` with `scripts/protect-main.sh`.
+- [x] Make the repo public and protect `main` with `scripts/protect-main.sh`.
 - [ ] Structured JSON logs + OpenTelemetry and Sentry (starter v2 items not in the reference app).
 
 ## 1. Foundation
