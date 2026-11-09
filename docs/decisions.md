@@ -22,3 +22,13 @@
 | 2026-11-08 | i18next 26 / react-i18next 17 instead of the new majors (27 / 18) | The new majors were released 1–2 days before; Dependabot will propose them once they settle |
 | 2026-11-08 | No LLM SDK in the backend (starter v2 lists `anthropic`) | No feature needs it yet |
 | 2026-11-08 | Web served on host port 8080 (`WEB_PORT`); the `claude-platform-101` containers were stopped to free it | Owner's request |
+| 2026-11-09 | Auth: email + password with Argon2id; server-side sessions (random token in an httpOnly, Secure, SameSite=Lax cookie; only its SHA-256 stored) instead of JWTs | Logout and account blocking take effect immediately; nothing secret lives in the browser |
+| 2026-11-09 | CSRF: SameSite=Lax cookie + JSON-only API | Cross-site forms can't send the cookie on POST, and JSON bodies need a CORS preflight |
+| 2026-11-09 | Login answers the same (`invalid_credentials`) for unknown email, wrong password, blocked account or password-less account, and always runs one Argon2 verification | Doesn't reveal which emails have an account |
+| 2026-11-09 | Customers sign up themselves; couriers and admins are created by an admin | Realistic access control |
+| 2026-11-09 | "As complete as possible" login, split into PRs: password → email verification/reset → magic link → Google → 2FA | Owner asked for the most complete option; small PRs are easier to review |
+| 2026-11-09 | Demo mode (`DEMO_MODE`, on in docker compose): 9 demo accounts (3 roles × 3 countries) with no password, reachable only through a one-click demo login | Visitors can try every role; demo accounts can't be used with a password |
+| 2026-11-09 | The API answers errors with codes (`detail: "email_taken"`), translated by the frontend | One place for texts, in both languages |
+| 2026-11-09 | Enums stored as VARCHAR + CHECK constraint, not PostgreSQL enums | Adding a value is a simple migration |
+| 2026-11-09 | Countries and their currency/default language live in code (`backend/app/countries.py`), not in a table | Fixed small set; no admin editing needed yet |
+| 2026-11-09 | Light theme (nord) error and link texts mixed with the text color (`text-error-readable`, `link-readable`) | Nord's colors fail WCAG AA contrast for small text |
