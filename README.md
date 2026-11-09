@@ -33,7 +33,7 @@ cp .env.example .env   # optional: every value has a default
 docker compose up --build
 ```
 
-Open <http://localhost:8081> (change it with `WEB_PORT`). The API applies its database
+Open <http://localhost:8080> (change it with `WEB_PORT`). The API applies its database
 migrations on start.
 
 For development, run the database with `docker compose up db`, then:
