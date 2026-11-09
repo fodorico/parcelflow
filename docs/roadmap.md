@@ -5,7 +5,7 @@ Phased MVP. Each phase should be usable end to end before moving on.
 | # | Phase | Status |
 |---|---|---|
 | 0 | Project setup | In progress |
-| 1 | Foundation | Not started |
+| 1 | Foundation | In progress |
 | 2 | Core shipment flow | Not started |
 | 3 | Operations | Not started |
 | 4 | Real-time tracking and routes | Not started |
@@ -25,10 +25,19 @@ Phased MVP. Each phase should be usable end to end before moving on.
 
 ## 1. Foundation
 
-- Authentication and roles: customer, courier, admin.
-- i18n (`en`, `es-419`) wired in frontend and backend (emails/notifications).
-- Currency model (minor units + ISO 4217) and locale formatting.
-- Base layouts for the three roles, responsive.
+Split into small PRs:
+
+- [x] i18n (`en`, `es-419`) in the frontend (done in stage 0).
+- [ ] **Auth and roles** (`feat/auth-and-roles`): email + password (Argon2, httpOnly session
+  cookie), roles customer / courier / admin, customer self sign-up, admins create any account,
+  role-protected panels, demo accounts per country with one-click login.
+- [ ] Email verification and password reset, with a mocked email provider and a dev inbox.
+- [ ] Magic link login.
+- [ ] Sign in with Google (optional: enabled only when OAuth credentials are configured).
+- [ ] Two-factor authentication (TOTP authenticator app, recovery codes).
+- [ ] Money model (minor units + ISO 4217, one currency per country) and locale formatting.
+- [ ] Base layouts for the three roles, responsive; admin user management screen.
+- [ ] Hardening: login rate limiting, expired session cleanup, user language in emails.
 
 ## 2. Core shipment flow
 

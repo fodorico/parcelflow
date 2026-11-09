@@ -6,9 +6,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 
-from app.api import health
+from app.api import auth, health, users
 from app.config import Settings, get_settings
 from app.db import create_engine, create_session_factory
+from app.demo import seed_demo_accounts
 
 
 def _operation_id(route: APIRoute) -> str:
@@ -25,6 +26,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             stack.push_async_callback(engine.dispose)
             app.state.settings = settings
             app.state.session_factory = create_session_factory(engine)
+            if settings.demo_mode:
+                await seed_demo_accounts(app.state.session_factory)
             yield
 
     app = FastAPI(
@@ -41,6 +44,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_headers=["Content-Type"],
     )
     app.include_router(health.router)
+    app.include_router(auth.router)
+    app.include_router(users.router)
     return app
 
 
