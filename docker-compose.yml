@@ -17,6 +17,8 @@ services:
     build: ./backend
     environment:
       DATABASE_URL: postgresql+asyncpg://app:app@db:5432/app
+      # The portfolio demo: one-click demo accounts. Set DEMO_MODE=false for real users.
+      DEMO_MODE: ${DEMO_MODE:-true}
     depends_on:
       db:
         condition: service_healthy
