@@ -1,25 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMemoryRouter, RouterProvider } from 'react-router'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { routes } from '../routes'
+import { mockFetch, notAuthenticated, renderApp, user } from '../test/api'
 
-function renderHome() {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
-  render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={createMemoryRouter(routes)} />
-    </QueryClientProvider>,
-  )
-}
-
-function mockHealth(response: Response) {
-  vi.stubGlobal(
-    'fetch',
-    vi.fn(() => Promise.resolve(response)),
-  )
-}
+const healthy = { 'GET /api/health': Response.json({ status: 'ok' }) }
 
 describe('HomePage', () => {
   afterEach(() => {
@@ -27,8 +11,8 @@ describe('HomePage', () => {
   })
 
   it('shows the three roles and that the service is online', async () => {
-    mockHealth(Response.json({ status: 'ok' }))
-    renderHome()
+    mockFetch({ ...healthy, 'GET /api/auth/me': notAuthenticated() })
+    renderApp()
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Local deliveries')
     for (const role of ['Customers', 'Couriers', 'Administrators']) {
@@ -38,15 +22,36 @@ describe('HomePage', () => {
   })
 
   it('says when the service is unavailable', async () => {
-    mockHealth(new Response(null, { status: 503 }))
-    renderHome()
+    mockFetch({
+      'GET /api/health': new Response(null, { status: 503 }),
+      'GET /api/auth/me': notAuthenticated(),
+    })
+    renderApp()
 
     expect(await screen.findByText('Service unavailable')).toBeInTheDocument()
   })
 
+  it('invites a visitor to sign up or log in', async () => {
+    mockFetch({ ...healthy, 'GET /api/auth/me': notAuthenticated() })
+    renderApp()
+
+    expect(await screen.findAllByRole('link', { name: 'Sign up' })).not.toHaveLength(0)
+    expect(screen.getAllByRole('link', { name: 'Log in' })).not.toHaveLength(0)
+  })
+
+  it('sends a logged-in user to their panel', async () => {
+    mockFetch({ ...healthy, 'GET /api/auth/me': Response.json(user({ role: 'courier' })) })
+    renderApp()
+
+    expect(await screen.findByRole('link', { name: 'My panel' })).toHaveAttribute(
+      'href',
+      '/courier',
+    )
+  })
+
   it('switches to Latin American Spanish', async () => {
-    mockHealth(Response.json({ status: 'ok' }))
-    renderHome()
+    mockFetch({ ...healthy, 'GET /api/auth/me': notAuthenticated() })
+    renderApp()
 
     await userEvent.selectOptions(screen.getByLabelText('Language'), 'es-419')
 

@@ -1,6 +1,7 @@
 import { Package } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Link, Outlet } from 'react-router'
+import { UserMenu } from '../features/auth/UserMenu'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -15,6 +16,7 @@ export function Layout() {
           </span>
           {t('app.name')}
         </Link>
+        <UserMenu />
         <LanguageSwitcher />
         <ThemeToggle />
       </header>

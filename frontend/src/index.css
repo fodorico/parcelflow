@@ -11,3 +11,12 @@ body,
 #root {
   height: 100%;
 }
+
+/* Nord's error and primary colors are too light for small text on its light backgrounds (WCAG AA
+   needs 4.5:1). Mixing them with the text color keeps the hue and reads well in both themes. */
+@utility text-error-readable {
+  color: color-mix(in oklab, var(--color-error) 60%, var(--color-base-content));
+}
+@utility link-readable {
+  color: color-mix(in oklab, var(--color-primary) 60%, var(--color-base-content));
+}
