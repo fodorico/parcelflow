@@ -1,13 +1,10 @@
 # Open questions
 
-- **Currencies:** which currencies to support first? Is the currency chosen per customer, per
-  operating city/zone, or per shipment? Do we need mocked exchange rates (e.g. show a quote in
-  another currency)?
-- **Operating area:** which city/country is the "local" area for the demo (affects default
-  currency, map center, addresses)?
-- **Map provider:** Google Maps (needs an API key and billing account) vs. an open option
-  (OpenStreetMap + Leaflet/MapLibre, OSRM/Valhalla for routing). Leaning towards open/free for a
-  practice project.
+- **Exchange rates:** with one currency per country, do we ever need to show a quote in another
+  currency (mocked exchange rates), e.g. for reports that add up all countries?
+- **Address model:** administrative divisions differ by country (Argentina: provincia /
+  partido or departamento / localidad; US: state / county / city; Spain: comunidad autónoma /
+  provincia / municipio). Model a generic hierarchy, or a fixed set of levels per country?
 - **Pricing model:** how is a quote calculated (base fee + distance, zones, package size/weight,
   time-slot surcharge, urgency)?
 - **Real-time transport:** WebSockets vs. Server-Sent Events for live tracking.

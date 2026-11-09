@@ -4,8 +4,10 @@ Out of the current scope; revisit when planning new phases.
 
 ## From the brief (deferred)
 
-- National shipments (between cities: carriers, hubs, longer time windows).
-- International shipments (customs data, duties, documents, carrier handoff).
+- Longer-distance shipments inside a country (carriers, hubs, longer time windows): "local" now
+  covers the whole country, but this may need its own logistics flow.
+- International shipments between the demo countries or others (customs data, duties,
+  documents, carrier handoff).
 
 ## Possible additions
 
